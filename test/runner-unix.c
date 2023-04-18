@@ -69,6 +69,7 @@ void notify_parent_process(void) {
 /* Do platform-specific initialization. */
 void platform_init(int argc, char **argv) {
   /* Disable stdio output buffering. */
+  //設置out,err緩衝區為0，直接讀寫
   setvbuf(stdout, NULL, _IONBF, 0);
   setvbuf(stderr, NULL, _IONBF, 0);
   signal(SIGPIPE, SIG_IGN);

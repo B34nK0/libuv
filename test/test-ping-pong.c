@@ -382,7 +382,7 @@ static int run_ping_pong_test(void) {
   return 0;
 }
 
-
+//宏展開為 int run_test_tcp_ping_pong(void)
 TEST_IMPL(tcp_ping_pong) {
   tcp_pinger_new(0);
   run_ping_pong_test();

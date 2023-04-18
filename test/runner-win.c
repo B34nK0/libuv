@@ -42,8 +42,10 @@
 #endif
 
 
+//執行平臺相關特殊初始化
 /* Do platform-specific initialization. */
 void platform_init(int argc, char **argv) {
+  //使應用不抛出crashed 彈窗
   /* Disable the "application crashed" popup. */
   SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX |
       SEM_NOOPENFILEERRORBOX);
