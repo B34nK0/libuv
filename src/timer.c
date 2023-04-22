@@ -113,6 +113,7 @@ int uv_timer_again(uv_timer_t* handle) {
     return UV_EINVAL;
 
   if (handle->repeat) {
+    //在调用uv_timer_again之前已经将handle剔除了timer，为何需要再调用一次？这里要做的应该是直接调用start就好吧
     uv_timer_stop(handle);
     uv_timer_start(handle, handle->timer_cb, handle->repeat, handle->repeat);
   }
@@ -165,16 +166,20 @@ void uv__run_timers(uv_loop_t* loop) {
   uv_timer_t* handle;
 
   for (;;) {
+    //最小堆堆顶，即最先到期的定时器
     heap_node = heap_min(timer_heap(loop));
     if (heap_node == NULL)
       break;
-
+    //获取定时器任务
     handle = container_of(heap_node, uv_timer_t, heap_node);
+    //该任务未到期，说明没有待处理的任务，可退出
     if (handle->timeout > loop->time)
       break;
-
+    //将任务从定时器(最小堆)剔除
     uv_timer_stop(handle);
+    //该任务时interval，需要再放回最小堆
     uv_timer_again(handle);
+    //当前线程执行，如果任务是耗时的，那是不是会影响下一个任务
     handle->timer_cb(handle);
   }
 }

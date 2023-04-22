@@ -71,8 +71,9 @@ int main(int argc, char **argv) {
     return EXIT_FAILURE;
   }
 #endif
-
+  //win设置crash时不弹窗， linux设置输出流不使用缓冲区
   platform_init(argc, argv);
+  //win下原样返回argv， linux下设置process title后原样返回
   argv = uv_setup_args(argc, argv);
 
   switch (argc) {

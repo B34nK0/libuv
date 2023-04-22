@@ -16,7 +16,7 @@ long fib_(long t) {
 
 void fib(uv_work_t *req) {
     int n = *(int *) req->data;
-    if (random() % 2)
+    if (rand() % 2)
         sleep(1);
     else
         sleep(3);
